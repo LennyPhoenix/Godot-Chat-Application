@@ -11,5 +11,8 @@ data_*/
 # DLLs
 discord_game_sdk.dll
 
+# Export
+Export/
+
 # VS2019
 .vs/
