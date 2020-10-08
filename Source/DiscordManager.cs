@@ -13,11 +13,9 @@ public class DiscordManager : Node
     {
         discord = new Discord.Discord(763426273757495327, (ulong)Discord.CreateFlags.Default);
         activityManager = discord.GetActivityManager();
-
-        UpdateActivity(true);
     }
 
-    public void UpdateActivity(bool resetTime = false)
+    public void UpdateActivity(string state, bool resetTime)
     {
         if (resetTime)
         {
@@ -26,7 +24,7 @@ public class DiscordManager : Node
 
         Activity activity = new Activity
         {
-            State = "In room.",
+            State = state,
             Timestamps =
             {
                 Start=startTime
