@@ -20,10 +20,12 @@ __meta__ = {
 [node name="ChatLog" type="RichTextLabel" parent="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 572.0
+focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
+selection_enabled = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 576.0

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Source/DiscordManager.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/App.gd" type="Script" id=2]
 [ext_resource path="res://Source/UI/ChatBox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://Source/MemberList.gd" type="Script" id=5]
 
 [node name="App" type="Control"]
 anchor_right = 1.0
@@ -81,25 +82,54 @@ __meta__ = {
 
 [node name="ChatBox" parent="Room" instance=ExtResource( 3 )]
 anchor_right = 0.716797
-margin_left = 15.0
-margin_top = 54.0
-margin_right = -0.00012207
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 1.99988
 margin_bottom = -17.0
 
 [node name="Leave" type="Button" parent="Room"]
-anchor_left = 0.0146484
-anchor_top = 0.0233333
-anchor_right = 0.0146484
-anchor_bottom = 0.0233333
-margin_right = 176.0
-margin_bottom = 27.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 136.0
+margin_bottom = 35.0
 text = "Leave Lobby"
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="Label" type="Label" parent="Room"]
+anchor_left = 0.734
+anchor_right = 1.0
+anchor_bottom = 0.053
+margin_left = 0.383972
+margin_top = 16.0
+margin_right = -184.0
+margin_bottom = 0.199999
+text = "Member List:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MemberList" type="RichTextLabel" parent="Room"]
+anchor_left = 0.734
+anchor_top = 0.08
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.383972
+margin_top = -3.8147e-06
+margin_right = -16.0
+margin_bottom = -17.0
+bbcode_enabled = true
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="JoinedLobby" from="DiscordManager" to="." method="_on_DiscordManager_JoinedLobby"]
 [connection signal="LeftLobby" from="DiscordManager" to="." method="_on_DiscordManager_LeftLobby"]
 [connection signal="ReceivedMessage" from="DiscordManager" to="Room/ChatBox" method="add_message"]
+[connection signal="UpdateMemberListText" from="DiscordManager" to="Room/MemberList" method="_on_DiscordManager_UpdateMemberListText"]
 [connection signal="button_up" from="MainMenu/Create" to="DiscordManager" method="CreateLobby"]
 [connection signal="send_message" from="Room/ChatBox" to="DiscordManager" method="OnChatBoxSendMessage"]
 [connection signal="button_up" from="Room/Leave" to="DiscordManager" method="LeaveLobby"]

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Discord;
 using System.Text;
+using System.Collections.Generic;
 
 public class DiscordManager : Node
 {
@@ -13,6 +14,9 @@ public class DiscordManager : Node
 
     [Signal]
     public delegate void ReceivedMessage(string username, string message);
+
+    [Signal]
+    public delegate void UpdateMemberListText(string list);
 
     public Discord.Discord discord;
     public ActivityManager activityManager;
@@ -39,6 +43,7 @@ public class DiscordManager : Node
                     GD.Print("Successfully joined a lobby: ", lobby.Id);
                     lobbyId = lobby.Id;
                     UpdateActivity("In lobby...", true, true);
+                    UpdateMemberList();
                     EmitSignal("JoinedLobby");
                 }
                 else
@@ -51,11 +56,13 @@ public class DiscordManager : Node
         lobbyManager.OnMemberConnect += (lobbyId, userId) =>
         {
             UpdateActivity("In lobby...", false, true);
+            UpdateMemberList();
         };
 
         lobbyManager.OnMemberDisconnect += (lobbyId, userId) =>
         {
             UpdateActivity("In lobby...", false, true);
+            UpdateMemberList();
         };
 
         lobbyManager.OnLobbyMessage += (lobbyId, userId, data) =>
@@ -94,6 +101,7 @@ public class DiscordManager : Node
                 GD.Print("Successfully created a new lobby: ", lobby.Id);
                 lobbyId = lobby.Id;
                 UpdateActivity("In lobby...", true, true);
+                UpdateMemberList();
                 EmitSignal("JoinedLobby");
             }
             else
@@ -168,6 +176,19 @@ public class DiscordManager : Node
     public string GetUsername()
     {
         return userManager.GetCurrentUser().Username;
+    }
+
+    public void UpdateMemberList()
+    {
+        string text = "";
+        IEnumerable<User> lobbyMembers = lobbyManager.GetMemberUsers(lobbyId);
+        foreach (User member in lobbyMembers)
+        {
+            text += " [color=#aaaaaa]>[/color] ";
+            text += "[color=#ddddff]" + member.Username + "[/color]";
+            text += "\n\n";
+        }
+        EmitSignal("UpdateMemberListText", text);
     }
 
     public override void _Process(float delta)
