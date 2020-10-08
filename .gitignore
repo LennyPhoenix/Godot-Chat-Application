@@ -10,3 +10,6 @@ data_*/
 
 # DLLs
 discord_game_sdk.dll
+
+# VS2019
+.vs/
