@@ -28,7 +28,7 @@ public class DiscordManager : Node
 
     public override void _Ready()
     {
-        // System.Environment.SetEnvironmentVariable("DISCORD_INSTANCE_ID", "1");
+        // System.Environment.SetEnvironmentVariable("DISCORD_INSTANCE_ID", "0");
 
         discord = new Discord.Discord(763426273757495327, (ulong)CreateFlags.Default);
         activityManager = discord.GetActivityManager();
@@ -75,7 +75,7 @@ public class DiscordManager : Node
         UpdateActivity("In menu...", true, false);
     }
 
-    public void OnChatBoxSendMessage(string message)
+    public void OnRoomSendMessage(string message)
     {
         lobbyManager.SendLobbyMessage(lobbyId, Encoding.UTF8.GetBytes(message), (result) =>
         {
